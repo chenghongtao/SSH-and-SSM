@@ -1,0 +1,73 @@
+1.三种创建bean对象的方法（ioc）
+   无参构造+arg1的setter   
+         <bean><property name="arg1" value=""s></bean>
+   有参构造：
+          实体类提供构造函数  public Bean(arg1,arg2){}  
+            <bean id="" class="">
+               <constructor-arg index="0" value="">   index从0开始，代表构造函数第一个参数。
+               <constructor-arg index="1" value="">
+           </bean>
+           使用type代替index，也可以使用。
+   静态工厂   
+       首先创建静态工厂类，并创建静态createBean（）。
+       <bean id="factory" class="com.cht.factory" factory-method="creatBean"/>
+   实例工厂
+       首先创建工厂，并提供非静态createBean()。
+       <bean id="factory" class="com.cht.factory"/>
+       <bean id="bean" factory-bean="factory" factory-method="createBean"/>
+2.给对象的属性赋值（di）
+  setter
+    setter方法，<bean><property name="" value="" or ref=""></bean>
+  有参构造
+     <bean id="" class="">
+               <constructor-arg index="0" value="">   index从0开始
+               <constructor-arg index="1" value="">
+           </bean>
+  接口
+3.给属性值赋值
+  1.对象(其实也是使用setter方法)
+  2.也可以通过有参构造进行
+  3.复杂对象，如[],list,map,properties
+       <list>
+          <value><value>
+       </list>
+       <set>
+          <value><value>
+       <set>
+       <map>
+         <entry key="" value="">
+       <map>
+       <props>
+           <prop key="">value<prop>
+       <props>
+  4.p空间
+4.得到ApplicationContext对象。
+   类路径ClassPathXmlApplicationContext(path);
+   系统路径SystemPathXmlApplicationContext(path);
+   网络路径
+5.spring中Advice（通知，增强）表达式
+  （1）execution([修饰符] 返回值类型 [包名]方法名[(参数)] 异常)
+
+       --the execution of any public method:
+            execution(public * *(..))
+       --the execution of any method with a name beginning with "set":
+            execution(* set*(..))
+       --the execution of any method defined by the AccountService interface:
+            execution(* com.xyz.service.AccountService.*(..))
+       --the execution of any method defined in the service package:
+            execution(* com.xyz.service.*.*(..))
+       --the execution of any method defined in the service package or a sub-package:
+            execution(* com.xyz.service..*.*(..))
+   （2）within（表达式）
+
+       --any join point (method execution only in Spring AOP) within the service package:
+            within(com.xyz.service.*)
+       --any join point (method execution only in Spring AOP) within the service package or a sub-package:
+            within(com.xyz.service..*)
+6.aop
+7.JdbcTemplate和HibernateTemplate
+8.事务
+
+
+ 
+
