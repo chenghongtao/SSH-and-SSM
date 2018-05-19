@@ -23,6 +23,7 @@
 				<interceptor-ref name="myInterceptor2"></interceptor-ref>
 			</interceptor-stack>
 		</interceptors>
+		
 		<action name="upload" class="com.cht.file.FileUploadAction"
 			method="upload">
 			<interceptor-ref name="fileUpload">
