@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+	<package name="interceptor" namespace="/interceptor" extends="struts-default">
+		<!--定义拦截器 -->
+		<interceptors>
+			<!--定义拦截器1 -->
+			<interceptor name="myInterceptor"
+				class="com.cht.struts.interceptor.MyInterceptor">
+				<param name="name">第一个拦截器</param>
+			</interceptor>
+			<!--定义拦截器2 -->
+			<interceptor name="myInterceptor2"
+				class="com.cht.struts.interceptor.MyInterceptor2">
+				<param name="name">第二个拦截器</param>
+			</interceptor>
+			<!--定义拦截器栈 -->
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="myInterceptor" />
+				<interceptor-ref name="myInterceptor2"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<action name="intercept" class="com.cht.struts.action.InterceptorAction">
+			<result name="ok" type="dispatcher">
+				/upload.jsp
+			</result>
+			<!--配置默认的拦截器 -->
+			<!-- <interceptor-ref name="defaultStack"></interceptor-ref> -->
+			<!-- 使用拦截器 -->
+			<!-- <interceptor-ref name="myInterceptor"></interceptor-ref> -->
+			<!-- <interceptor-ref name="myInterceptor2"></interceptor-ref> -->
+			<interceptor-ref name="myStack"></interceptor-ref>
+		</action>
+	</package>
+</struts>

@@ -10,30 +10,6 @@
 			<result name="test" type="dispatcher">/WEB-INF/jsps/test.jsp</result>
 		</action>
 	</package>
-	<package name="file" namespace="/file" extends="struts-default">
-		<action name="upload" class="com.cht.file.FileUploadAction"
-			method="upload">
-			<interceptor-ref name="fileUpload">
-			     <param name="allowedTypes">image/jpg,image/png,text/plain</param>
-			     <param name="maximumSize">200000</param>
-			</interceptor-ref>
-			<interceptor-ref name="defaultStack"></interceptor-ref>
-			<result name="success" type="dispatcher">/WEB-INF/jsps/success.jsp</result>
-			<!--如果上传失败，则进入此视图 ,这个坑很深啊 -->
-			<result name="input">/failed.jsp</result>
-			<param name="saveDir">/WEB-INF/upload</param>
-		</action>
-		<action name="download" class="com.cht.file.DownLoadAction" method="downLoad">
-		   <result name="down" type="stream">
-		      <!--指定下载文件的MIME类型  -->
-		      <param name="contentType">text/plain</param>
-		      <!--action中指定文件下载方法  -->
-		      <param name="inputName">fileStream</param>
-		      <!-- 下载头，包括：浏览器显示的文件名 -->
-		      <param name="contentDisposition">attachment;filename="${downLoadFileName}"</param>
-		      <!--指定下载文件的缓冲大小  -->
-		      <param name="bufferSize">4096</param>
-		   </result>
-		</action>
-	</package>
+	<include file="file-struts.xml"></include>
+	<include file="interceptor-struts.xml"></include>
 </struts>

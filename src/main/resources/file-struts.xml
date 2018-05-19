@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+	<package name="file" namespace="/file" extends="struts-default">
+	    <!--定义拦截器 -->
+		<interceptors>
+			<!--定义拦截器1 -->
+			<interceptor name="myInterceptor"
+				class="com.cht.struts.interceptor.MyInterceptor">
+				<param name="name">第一个拦截器</param>
+			</interceptor>
+			<!--定义拦截器2 -->
+			<interceptor name="myInterceptor2"
+				class="com.cht.struts.interceptor.MyInterceptor2">
+				<param name="name">第二个拦截器</param>
+			</interceptor>
+			<!--定义拦截器栈 -->
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="myInterceptor" />
+				<interceptor-ref name="myInterceptor2"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<action name="upload" class="com.cht.file.FileUploadAction"
+			method="upload">
+			<interceptor-ref name="fileUpload">
+				<param name="allowedTypes">image/jpg,image/png,text/plain</param>
+				<param name="maximumSize">200000</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="success" type="dispatcher">/WEB-INF/jsps/success.jsp</result>
+			<!--如果上传失败，则进入此视图 ,这个坑很深啊 -->
+			<result name="input">/failed.jsp</result>
+			<param name="saveDir">/WEB-INF/upload</param>
+			<interceptor-ref name="myStack"></interceptor-ref>
+		</action>
+		<action name="download" class="com.cht.file.DownLoadAction"
+			method="downLoad">
+			<result name="down" type="stream">
+				<!--指定下载文件的MIME类型 -->
+				<param name="contentType">text/plain</param>
+				<!--action中指定文件下载方法 -->
+				<param name="inputName">fileStream</param>
+				<!-- 下载头，包括：浏览器显示的文件名 -->
+				<param name="contentDisposition">attachment;filename="${downLoadFileName}"</param>
+				<!--指定下载文件的缓冲大小 -->
+				<param name="bufferSize">4096</param>
+			</result>
+		</action>
+	</package>
+</struts>
